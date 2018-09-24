@@ -1,26 +1,29 @@
+import { logger } from '../src/logger';
 import CircularBuffer from '../src/modules/circularbuffer';
 
+const BUFFER_SIZE = 10;
+const dummyObj = {
+  key: 'testName',
+  value: 'testValue',
+};
+const wrongDummykv = {
+  key: 'wrongTestName',
+  value: 'wrongTestValue',
+};
+
 describe('CircularBuffer', () => {
-  const CB = new CircularBuffer(100);
-  const dummykv = {
-    key: 'testName',
-    value: 'testValue',
-  };
-  const wrongDummykv = {
-    key: 'wrongTestName',
-    value: 'wrongTestValue',
-  };
+  const CB = new CircularBuffer(BUFFER_SIZE);
 
   beforeEach(() => {
-    CB.set(dummykv.key, dummykv.value);
+    CB.set(dummyObj.key, dummyObj.value);
   });
 
   test('expect to set new key-value', async () => {
-    expect(await CB.get(dummykv.key)).toBe(dummykv.value);
+    expect(await CB.get(dummyObj.key)).toBe(dummyObj.value);
   });
 
   test('expect to get key\'s value', async () => {
-    expect(await CB.get(dummykv.key)).toBe(dummykv.value);
+    expect(await CB.get(dummyObj.key)).toBe(dummyObj.value);
   });
 
   test('expect to be undefined error when key doesn\'t exist', async () => {
@@ -28,7 +31,7 @@ describe('CircularBuffer', () => {
   });
 
   test('expect to delete key', async () => {
-    CB.del(dummykv.key);
+    CB.del(dummyObj.key);
     expect(await CB.get(wrongDummykv.key)).toBe(undefined);
   });
 
@@ -50,5 +53,16 @@ describe('CircularBuffer', () => {
 
     expect(await CB.toArray((item: string) => item.length > 1))
     .toStrictEqual(expectedArray);
+  });
+
+  test('expect to pointer be 0 when buffer filled', () => {
+    CB.flush();
+
+    for (let index = 0; index < BUFFER_SIZE + 1; index++) {
+      CB.set(`${dummyObj.key}_${index}`, `${dummyObj.value}_${index}`);
+    }
+
+    expect(CB.pointer).toEqual(0);
+    CB.flush();
   });
 });
