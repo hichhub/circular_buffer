@@ -11,9 +11,11 @@ describe('CircularBuffer', () => {
     value: 'wrongTestValue'
   };
 
+  beforeEach(() => {
+    CB.set(dummykv.key, dummykv.value);
+  })
 
   test('expect to set new key-value', async () => {
-    CB.set(dummykv.key, dummykv.value);
     expect(await CB.get(dummykv.key)).toBe(dummykv.value)
   });
 
@@ -22,6 +24,11 @@ describe('CircularBuffer', () => {
   });
 
   test('expect to be undefined error when key doesn\'t exist', async () => {
+    expect(await CB.get(wrongDummykv.key)).toBe(undefined);
+  });
+
+  test('expect to delete key', async () => {
+    CB.del(dummykv.key);
     expect(await CB.get(wrongDummykv.key)).toBe(undefined);
   });
 });
