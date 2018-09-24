@@ -31,4 +31,9 @@ describe('CircularBuffer', () => {
     CB.del(dummykv.key);
     expect(await CB.get(wrongDummykv.key)).toBe(undefined);
   });
+
+  test('expect to circular buffer be flushed', () => {
+    CB.flush()
+    expect(CB.mapBuffer.size).toBe(0)
+  })
 });
