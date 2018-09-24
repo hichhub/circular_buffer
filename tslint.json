@@ -3,9 +3,6 @@
     "extends": "./node_modules/tslint/lib/configs/recommended",
     "rules": {
         "semicolon": [true, "always"],
-        "max-line-length": {
-            "options": [80]
-        },
         "quotemark": [true, "single", "jsx-double"],
         "indent": [true, "spaces", 2],
         "linebreak-style": [true, "LF"],

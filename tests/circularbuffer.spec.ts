@@ -1,22 +1,22 @@
 import CircularBuffer from '../src/modules/circularbuffer';
 
 describe('CircularBuffer', () => {
-  let CB = new CircularBuffer(100);
-  let dummykv = {
+  const CB = new CircularBuffer(100);
+  const dummykv = {
     key: 'testName',
-    value: 'testValue'
+    value: 'testValue',
   };
-  let wrongDummykv = {
+  const wrongDummykv = {
     key: 'wrongTestName',
-    value: 'wrongTestValue'
+    value: 'wrongTestValue',
   };
 
   beforeEach(() => {
     CB.set(dummykv.key, dummykv.value);
-  })
+  });
 
   test('expect to set new key-value', async () => {
-    expect(await CB.get(dummykv.key)).toBe(dummykv.value)
+    expect(await CB.get(dummykv.key)).toBe(dummykv.value);
   });
 
   test('expect to get key\'s value', async () => {
@@ -33,21 +33,22 @@ describe('CircularBuffer', () => {
   });
 
   test('expect to circular buffer be flushed', () => {
-    CB.flush()
-    expect(CB.mapBuffer.size).toStrictEqual(0)
-  })
+    CB.flush();
+    expect(CB.mapBuffer.size).toStrictEqual(0);
+  });
 
   test('expect to get arraies of of values', async () => {
     expect(await CB.toArray()).toBeInstanceOf(Array);
   });
 
   test('expect to get arraies of of filtered values', async () => {
-    let expectedArray = ['AA', 'AAA']
-    CB.flush()
-    CB.set('test1', 'A')
-    CB.set('test2', 'AA')
-    CB.set('test3', 'AAA')
+    const expectedArray = ['AA', 'AAA'];
+    CB.flush();
+    CB.set('test1', 'A');
+    CB.set('test2', 'AA');
+    CB.set('test3', 'AAA');
 
-    expect(await CB.toArray((item: string) => item.length > 1)).toStrictEqual(expectedArray);
+    expect(await CB.toArray((item: string) => item.length > 1))
+    .toStrictEqual(expectedArray);
   });
 });
