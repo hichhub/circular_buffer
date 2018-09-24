@@ -34,6 +34,20 @@ describe('CircularBuffer', () => {
 
   test('expect to circular buffer be flushed', () => {
     CB.flush()
-    expect(CB.mapBuffer.size).toBe(0)
+    expect(CB.mapBuffer.size).toStrictEqual(0)
   })
+
+  test('expect to get arraies of of values', async () => {
+    expect(await CB.toArray()).toBeInstanceOf(Array);
+  });
+
+  test('expect to get arraies of of filtered values', async () => {
+    let expectedArray = ['AA', 'AAA']
+    CB.flush()
+    CB.set('test1', 'A')
+    CB.set('test2', 'AA')
+    CB.set('test3', 'AAA')
+
+    expect(await CB.toArray((item: string) => item.length > 1)).toStrictEqual(expectedArray);
+  });
 });
