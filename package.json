@@ -20,7 +20,7 @@
     "tslint": "^5.11.0"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --clearCache && jest --verbose",
     "lint": "tslint -p tslint.json"
   },
   "repository": {
