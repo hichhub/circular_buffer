@@ -31,7 +31,7 @@ export default class PersistableCircularBuffer<T> extends CircularBuffer<T> impl
       return false;
     }
     try {
-      this.mapBuffer = new Map(JSON.parse(await this.store.get(this.mapStoreName)));
+      this.mapBuffer = JSON.parse(await this.store.get(this.mapStoreName));
     } catch (error) {
       logger.error(error);
       return false;
@@ -42,19 +42,19 @@ export default class PersistableCircularBuffer<T> extends CircularBuffer<T> impl
   public async set (key: string, value: T):Promise<T> {
     super.set(key, value);
     this.store.set(this.arrayStoreName, JSON.stringify(this.arrayBuffer));
-    this.store.set(this.mapStoreName, JSON.stringify([...this.mapBuffer]));
+    this.store.set(this.mapStoreName, JSON.stringify(this.mapBuffer));
     return value;
   }
   public async del (key: string):Promise<boolean> {
     super.del(key);
     this.store.set(this.arrayStoreName, JSON.stringify(this.arrayBuffer));
-    this.store.set(this.mapStoreName, JSON.stringify([...this.mapBuffer]));
+    this.store.set(this.mapStoreName, JSON.stringify(this.mapBuffer));
     return true;
   }
   public async flush ():Promise<boolean> {
     super.flush();
     this.store.set(this.arrayStoreName, JSON.stringify(this.arrayBuffer));
-    this.store.set(this.mapStoreName, JSON.stringify([...this.mapBuffer]));
+    this.store.set(this.mapStoreName, JSON.stringify(this.mapBuffer));
     return true;
   }
 }
