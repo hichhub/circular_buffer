@@ -2,10 +2,10 @@ import { IKVStore } from './IKVStore';
 
 export interface ICircularBuffer<T> {
   size: number;
-  set (key: string, value: T): void;
+  set (key: string, value: T): Promise<T>;
   get (key: string): Promise<T>;
-  del (key: string): void;
-  flush (): void;
+  del (key: string): Promise<boolean>;
+  flush (): Promise<Boolean>;
   toArray (callbackfn?: IToArrayCallbackfn<T>): Promise<T[]>;
 }
 

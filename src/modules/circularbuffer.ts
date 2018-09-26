@@ -17,7 +17,7 @@ export default class CircularBuffer<T> implements ICircularBuffer<T> {
     this.pointer %= this.size;
     return this.pointer;
   }
-  public set (key: string, value: T) {
+  public async set (key: string, value: T): Promise<T> {
     if (this.mapBuffer.has(key)) {
       this.mapBuffer.set(key, value);
     } else {
@@ -30,12 +30,14 @@ export default class CircularBuffer<T> implements ICircularBuffer<T> {
       this.arrayBuffer[this.pointer] = key;
       this.mapBuffer.set(key, value);
     }
+    return value;
   }
   public async get (key: string): Promise<T> {
     return this.mapBuffer.get(key) as T;
   }
-  public del (key: string) {
+  public async del (key: string): Promise<boolean> {
     this.mapBuffer.delete(key);
+    return true;
   }
   public async toArray (callbackfn?: IToArrayCallbackfn<T>): Promise<T[]> {
     const values = [...this.mapBuffer.values()];
@@ -47,9 +49,10 @@ export default class CircularBuffer<T> implements ICircularBuffer<T> {
       return true;
     });
   }
-  public flush () {
+  public async flush (): Promise<boolean> {
     this.pointer = -1;
     this.arrayBuffer = [];
     this.mapBuffer.clear();
+    return true;
   }
 }

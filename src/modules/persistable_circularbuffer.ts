@@ -39,9 +39,22 @@ export default class PersistableCircularBuffer<T> extends CircularBuffer<T> impl
 
     return true;
   }
-  public set (key: string, value: T) {
+  public async set (key: string, value: T):Promise<T> {
     super.set(key, value);
     this.store.set(this.arrayStoreName, JSON.stringify(this.arrayBuffer));
     this.store.set(this.mapStoreName, JSON.stringify([...this.mapBuffer]));
+    return value;
+  }
+  public async del (key: string):Promise<boolean> {
+    super.del(key);
+    this.store.set(this.arrayStoreName, JSON.stringify(this.arrayBuffer));
+    this.store.set(this.mapStoreName, JSON.stringify([...this.mapBuffer]));
+    return true;
+  }
+  public async flush ():Promise<boolean> {
+    super.flush();
+    this.store.set(this.arrayStoreName, JSON.stringify(this.arrayBuffer));
+    this.store.set(this.mapStoreName, JSON.stringify([...this.mapBuffer]));
+    return true;
   }
 }
