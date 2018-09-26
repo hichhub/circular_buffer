@@ -13,4 +13,4 @@ export interface IPersistableCircularBuffer<T> extends ICircularBuffer<T> {
   load (store: IKVStore, storeName: string): Promise<boolean>;
 }
 
-export type IToArrayCallbackfn<T> = (value: T, index: number, array: T[]) => T;
+export type IToArrayCallbackfn<T> = (value?: T, index?: number, array?: T[]) => boolean;
