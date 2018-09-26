@@ -1,3 +1,5 @@
+import { IKVStore } from './IKVStore';
+
 export interface ICircularBuffer<T> {
   size: number;
   set (key: string, value: T): void;
@@ -8,7 +10,7 @@ export interface ICircularBuffer<T> {
 }
 
 export interface IPersistableCircularBuffer<T> extends ICircularBuffer<T> {
-  init (): Promise<boolean>;
+  load (store: IKVStore, storeName: string): Promise<boolean>;
 }
 
 export type IToArrayCallbackfn<T> = (value: T, index: number, array: T[]) => T;

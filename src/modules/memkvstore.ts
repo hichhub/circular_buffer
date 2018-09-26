@@ -1,11 +1,11 @@
-import { IGenericKVStore } from '../interfaces/IKVStore';
+import { IGenericKVStore, IKVStore } from '../interfaces/IKVStore';
 
-export default class MemkvStore<T> implements IGenericKVStore<T> {
-  public store: Map<string, T> = new Map();
-  public async get (key: string): Promise<T> {
-    return this.store.get(key) as T;
+export default class MemkvStore implements IKVStore {
+  public store: Map<string, string> = new Map();
+  public async get (key: string): Promise<string> {
+    return this.store.get(key) as string;
   }
-  public async set (key: string, value: T): Promise<T> {
+  public async set (key: string, value: string): Promise<string> {
     this.store.set(key, value);
     return value;
   }
