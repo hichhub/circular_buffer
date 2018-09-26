@@ -7,7 +7,8 @@
         "indent": [true, "spaces", 2],
         "linebreak-style": [true, "LF"],
         "space-before-function-paren": [true, "always"],
-        "arrow-return-shorthand": [true, "always"]
+        "arrow-return-shorthand": [true, "always"],
+        "no-console": false
     },
     "rulesDirectory": [],
     "linterOptions": {
